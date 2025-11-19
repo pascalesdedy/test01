@@ -13,3 +13,4 @@ class BasePage:
 
     def visit(self, url):
         self.driver.get(url)
+        WebDriverWait(self.driver, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
