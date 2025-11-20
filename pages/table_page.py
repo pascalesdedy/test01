@@ -3,18 +3,21 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 class TablePage(BasePage):
-    TABLE_ROWS = (By.CSS_SELECTOR, "table#courses_table tbody tr")
+    TABLE_ROWS = (By.CSS_SELECTOR, "table#courses_table tbody tr:not([style*='display:none']):not([style*='display: none']):not(.hidden)")
     TABLE_COLS = (By.CSS_SELECTOR, "table#courses_table thead th")
     LANG_RADIOS = (By.NAME, "lang")
     LANG_COL = (By.CSS_SELECTOR, "table#courses_table tbody tr td:nth-child(3)")
-
-    SELECT_ANY = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[1]/label[1]")
-    SELECT_JAVA = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[1]/label[2]")
-    SELECT_PYTHON = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[1]/label[3]")
+    BEGINNER_CHECKBOX = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[2]/label[1]/input")
+    INTERMEDIATE_CHECKBOX = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[2]/label[2]/input")
+    ADVANCED_CHECKBOX = (By.XPATH, "//*[@id='xpath-table']/div[2]/fieldset[2]/label[3]/input")
 
     def get_table_rows(self):
         self.visit("https://practicetestautomation.com/practice-test-table/")
         return self.driver.find_elements(*self.TABLE_ROWS)
+    
+    def get_rows_count(self):
+        rows = self.driver.find_elements(*self.TABLE_ROWS)
+        return len(rows)
 
     def get_table_columns(self):
         self.visit("https://practicetestautomation.com/practice-test-table/")
@@ -52,3 +55,21 @@ class TablePage(BasePage):
             cells = r.find_elements(By.TAG_NAME, "td")
             langs.append(cells[2].text.strip())   # kolom Language
         return langs
+    
+    def click_beginner_level(self):
+        self.visit("https://practicetestautomation.com/practice-test-table/")
+        if self.driver.find_element(*self.BEGINNER_CHECKBOX).is_selected():
+            self.driver.find_element(*self.INTERMEDIATE_CHECKBOX).click()
+            self.driver.find_element(*self.ADVANCED_CHECKBOX).click()
+    
+    def click_intermediate_level(self):
+        self.visit("https://practicetestautomation.com/practice-test-table/")
+        if self.driver.find_element(*self.INTERMEDIATE_CHECKBOX).is_selected():
+            self.driver.find_element(*self.BEGINNER_CHECKBOX).click()
+            self.driver.find_element(*self.ADVANCED_CHECKBOX).click()
+    
+    def click_advanced_level(self):
+        self.visit("https://practicetestautomation.com/practice-test-table/")
+        if self.driver.find_element(*self.ADVANCED_CHECKBOX).is_selected():
+            self.driver.find_element(*self.BEGINNER_CHECKBOX).click()
+            self.driver.find_element(*self.INTERMEDIATE_CHECKBOX).click()

@@ -26,3 +26,27 @@ def test_language_filter(driver):
             visible_langs = [l for l in langs if l]
             assert all(l == lang for l in visible_langs), \
                 f"Expected only {lang}, but got {visible_langs}"
+
+def test_level_beginner(driver):
+    table_page = TablePage(driver)
+
+    # Click Beginner checkbox
+    table_page.click_beginner_level()
+    rows_count = table_page.get_rows_count()
+    assert rows_count == 5, f"Expected 5 rows for Beginner level, but got {rows_count}"
+    
+def test_level_intermediate(driver):
+    table_page = TablePage(driver)
+
+    # Click Intermediate checkbox
+    table_page.click_intermediate_level()
+    rows_count = table_page.get_rows_count()
+    assert rows_count == 2, f"Expected 2 rows for Intermediate level, but got {rows_count}"    
+
+def test_level_advanced(driver):
+    table_page = TablePage(driver)
+
+    # Click Advanced checkbox
+    table_page.click_advanced_level()
+    rows_count = table_page.get_rows_count()
+    assert rows_count == 2, f"Expected 2 rows for Advanced level, but got {rows_count}" 

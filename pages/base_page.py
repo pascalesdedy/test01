@@ -14,3 +14,11 @@ class BasePage:
     def visit(self, url):
         self.driver.get(url)
         WebDriverWait(self.driver, 10).until(lambda d: d.execute_script("return document.readyState") == "complete")
+
+    def get_text(self, locator):
+        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator)).text
+    
+    def isClicked(self,locator):
+        element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(locator))
+        return element.is_selected()
+        

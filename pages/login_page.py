@@ -12,3 +12,8 @@ class LoginPage(BasePage):
         self.type(self.USERNAME, username)
         self.type(self.PASSWORD, password)
         self.click(self.BUTTON)
+
+    def get_error_message(self):
+        return self.get_text((By.XPATH, "//*[@id='error']"))
+    
+    
